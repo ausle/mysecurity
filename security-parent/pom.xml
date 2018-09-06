@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.asule</groupId>
+    <artifactId>security-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+
+    <properties>
+        <asule-security-version>1.0</asule-security-version>
+    </properties>
+
+
+
+
+    <modules>
+        <module>../security-app</module>
+        <module>../security-browser</module>
+        <module>../security-core</module>
+        <module>../security-demo</module>
+    </modules>
+
+    <!--
+       dependencyManagement
+       在dependencyManagement下声明的依赖不会被实际的引入。
+       它的实际作用是统一项目依赖的版本。当依赖版本在父POM中声明之后，
+       子模块在使用时就无须声明版本，也就不会发生多个子模块使用的版本不一致的情况。这样有助于降低依赖冲突的概率。
+
+
+       io.spring.platform可以理解为一个依赖维护平台。
+       该平台汇聚了一些依赖，提供版本号，并保证这些依赖互相之间可以正常使用。(它们都是经过测试的)
+       (当依赖越来越多时，依赖之间的关联会越复杂。这也是io.spring.platform存在的必要)
+       这样，在添加第三方依赖时，不需要再写版本号。io.spring.platform会帮我们挑一个最优的版本。
+       该依赖的范围为import，而import范围的依赖只有在dependencyManagement下才有效果。
+       而import范围的依赖通常指向一个POM，作用是将该POM的dependencyManagement配置导入到
+       当前POM的dependencyManagement元素中。
+       所以该依赖的type为pom，指向一个打包类型为POM的模块。
+
+
+       org.springframework.cloud，则是需要使用spring cloud。
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>Brussels-SR4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!--引入maven的编译插件。指定JDK为1.8-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
